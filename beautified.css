@@ -1,0 +1,113 @@
+:root[data-theme="light"] {
+    --bg-color: #f4f6f9;
+    --text-color: #333333;
+    --card-bg: #ffffff;
+    --header-bg: #003366;
+    --header-text: #ffffff;
+    --accent-gold: #d4af37;
+    --border-color: #e0e0e0;
+}
+
+:root[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --header-bg: #1a1a1a;
+    --header-text: #ffffff;
+    --accent-gold: #ffcc00;
+    --border-color: #333333;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: 0.3s;
+}
+
+header {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 25px;
+    text-align: center;
+    border-bottom: 4px solid var(--accent-gold);
+    position: relative;
+}
+
+.controls {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+.controls button,
+.controls select {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.controls select option {
+    background-color: #222;
+    color: white;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 20px;
+}
+
+main {
+    flex: 2;
+}
+
+aside {
+    flex: 1;
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    height: fit-content;
+}
+
+.news-card {
+    background: var(--card-bg);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    border-left: 5px solid #003366;
+}
+
+.news-date {
+    color: #777;
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+footer {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+    border-top: 4px solid var(--accent-gold);
+}
+
+[data-lang="ru"] .vis-text {
+    display: none;
+}
+
+[data-lang="vis"] .ru-text {
+    display: none;
+}
