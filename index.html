@@ -61,7 +61,6 @@ footer{margin-top:auto;padding:1.6rem 1.2rem;text-align:center;background:var(--
 .ti{padding-right:44px}
 .ti::before{content:"";display:inline-block;width:6px;height:6px;margin-right:12px;background:var(--ac);transform:rotate(45deg)}
 
-/* Картинки в новостях */
 .news-img{float:left;margin:0 14px 8px 0;width:130px;height:90px;object-fit:cover;border-radius:6px;border:1px solid var(--bd);box-shadow:0 2px 4px rgba(0,0,0,.1);background:var(--bg)}
 .item::after,.card>div::after{content:"";display:block;clear:both}
 .src{clear:both}
@@ -135,7 +134,7 @@ footer{margin-top:auto;padding:1.6rem 1.2rem;text-align:center;background:var(--
 <div class="wrap">
 <main>
 <h2 data-i="intl"></h2>
-<section class="card z-v" style="--d:1"><h3 data-i="zv">Новости де Виспарии</h3><div id="n-vispar"></div></section>
+<section class="card z-v" style="--d:1"><h3 data-i="zv">Новости Виспарии</h3><div id="n-vispar"></div></section>
 <section class="card z-e" style="--d:2"><h3 data-i="ze"></h3><div id="n-eshkere"></div></section>
 <section class="card z-h" style="--d:3"><h3 data-i="zh"></h3><div id="n-hamster"></div></section>
 <section class="card z-p" style="--d:4"><h3 data-i="zp"></h3><div id="n-podgorsk"></div></section>
@@ -154,7 +153,6 @@ footer{margin-top:auto;padding:1.6rem 1.2rem;text-align:center;background:var(--
 </div>
 <footer><div data-i="foot"></div><p style="margin:.6em 0 0"><a href="https://t.me/wispariasmi" target="_blank" rel="noopener" data-i="tg"></a></p></footer>
 
-<!-- Модальное окно: Карта метро -->
 <div class="ov" id="ovMetro"><div class="md metro-modal" role="dialog" aria-modal="true" aria-label="Карта метро">
 <h2>Интерактивная карта метро Подгорска</h2>
 <p style="font-size:.9rem; color:var(--mut); margin-top:-6px;">Полноразмерный мониторинг транспортной сети. Используйте прокрутку для детального просмотра станций.</p>
@@ -173,25 +171,23 @@ footer{margin-top:auto;padding:1.6rem 1.2rem;text-align:center;background:var(--
 <button class="btn alt" id="closeMetroBtn" type="button" style="margin-top:14px">Закрыть</button>
 </div></div>
 
-<!-- Модальное окно: Архив -->
 <div class="ov" id="ov2"><div class="md" role="dialog" aria-modal="true" aria-label="Архив" style="max-width:720px">
-<h2 data-i="arc">Архив де новостей</h2>
-<input id="q" type="text" autocomplete="off" placeholder="Поиск де по новостям...">
+<h2 data-i="arc">Архив новостей</h2>
+<input id="q" type="text" autocomplete="off" placeholder="Поиск по новостям...">
 <label for="qz" style="position:absolute;left:-9999px">Раздел</label>
-<select id="qz" style="margin-top:8px"><option value="all" data-i="all">Все разделы</option><option value="city" data-i="local">Городские новости</option><option value="vispar">Новости де Виспарии</option><option value="eshkere" data-i="ze">Эщкерестан</option><option value="hamster" data-i="zh">Республика Хамстер</option><option value="podgorsk" data-i="zp">Автономная Подгорская Область</option></select>
+<select id="qz" style="margin-top:8px"><option value="all" data-i="all">Все разделы</option><option value="city" data-i="local">Городские новости</option><option value="vispar">Новости Виспарии</option><option value="eshkere" data-i="ze">Эщкерестан</option><option value="hamster" data-i="zh">Республика Хамстер</option><option value="podgorsk" data-i="zp">Автономная Подгорская Область</option></select>
 <ul class="lst" id="alist" style="max-height:50vh; overflow-y:auto"></ul>
 <button class="btn alt" id="ax" type="button" style="margin-top:14px" data-i="close">Закрыть</button>
 </div></div>
 
-<!-- Модальное окно: Админка -->
 <div class="ov" id="ov"><div class="md" role="dialog" aria-modal="true" aria-label="Админ-панель">
-<div id="login"><h2>Вход де в админ-панель</h2>
+<div id="login"><h2>Вход в админ-панель</h2>
 <label for="pw">Пароль</label><input id="pw" type="password" autocomplete="off">
 <div class="msg" id="lmsg"></div>
 <button class="btn" id="lgo" type="button">Войти</button><button class="btn alt" id="lx" type="button">Закрыть</button></div>
-<div id="panel" hidden><h2>Публикация де новостей</h2>
+<div id="panel" hidden><h2>Публикация новостей</h2>
 <label for="z">Раздел</label>
-<select id="z"><option value="city">Городские новости</option><option value="vispar">Новости де Виспарии</option><option value="eshkere">Эщкерестан</option><option value="hamster">Республика Хамстер</option><option value="podgorsk">Автономная Подгорская Область</option></select>
+<select id="z"><option value="city">Городские новости</option><option value="vispar">Новости Виспарии</option><option value="eshkere">Эщкерестан</option><option value="hamster">Республика Хамстер</option><option value="podgorsk">Автономная Подгорская Область</option></select>
 <label for="d">Дата (ДД.ММ.ГГГГ)</label><input id="d" type="text" maxlength="10">
 <label for="tr">Заголовок (русский)</label><input id="tr" type="text">
 <label for="xr">Текст (русский)</label><textarea id="xr"></textarea>
@@ -207,43 +203,61 @@ footer{margin-top:auto;padding:1.6rem 1.2rem;text-align:center;background:var(--
 (function(){
 'use strict';
 var KEY='slovma_admin_v1',PASS='slovma',root=document.documentElement;
+
+/* ИНТЕРФЕЙС ("де" только на кириллице в Wispárskâ) */
 var T={
-ru:{title:"Администрация де Словма",sub:"Официальный информационный портал де град Словма",intl:"Международные сводки де СМИ",local:"Лента де городских новостей",zv:"Новости де Виспарии",ze:"Эщкерестан",zh:"Республика Хамстер",zp:"Автономная Подгорская Область",gov:"Государственные данные",pres:"Президент де Виспарии",presn:"Висп",mayor:"Мэр де города",mayorn:"Нео",rate:"Курс де валюта",wt:"Метеосводка де городов",day:"День:",src:"Источник де: ",adm:"Админ",tl:"Светлая тема",td:"Темная тема",arc:"Архив де новостей",all:"Все разделы",close:"Закрыть",tg:"Наш Telegram-канал",tgh:"Мы де в Telegram",search:"Поиск де по новостям",none:"Ничего де не найдено.",an1:"Официальный портал де Администрация де Словма работает де в штатном режиме",an2:"Следите де за новостями де в Telegram: t.me/wispariasmi",foot:"© 2026 Администрация де Словма. Все права де защищены."},
-vis:{title:"Администрациа де Словма",sub:"Официална информациона порта de град Словма",intl:"Хроника de новостили мира",local:"Хроника de новини локали",zv:"Новости де Виспариjа",ze:"Эщкерестан",zh:"Република Хамстер",zp:"Автономна Подгорска Область",gov:"Державни информаци",pres:"Президент де Виспариjа",presn:"Висп",mayor:"Мэр де град",mayorn:"Нео",rate:"Курс де валюта",wt:"Мониторинг de време",day:"Дан:",src:"Сурса де: ",adm:"Админ",tl:"Светла тема",td:"Тёмна тема",arc:"Архив де новини",all:"Все разделы",close:"Затвори",tg:"Наш Telegram-канал",tgh:"Ми де в Telegram",search:"Пошук де по новини",none:"Ничего де не знайдено.",an1:"Официална порта de Администрациа де Словма работае де u штатни режим",an2:"Слидите де новини де u Telegram: t.me/wispariasmi",foot:"© 2026 Администрациа de Словма. Тоате дрепуриле резервате."}
+ru:{title:"Администрация Словмы",sub:"Официальный информационный портал города Словма",intl:"Международные сводки СМИ",local:"Лента городских новостей",zv:"Новости Виспарии",ze:"Эщкерестан",zh:"Республика Хамстер",zp:"Автономная Подгорская Область",gov:"Государственные данные",pres:"Президент Виспарии",presn:"Висп",mayor:"Мэр города",mayorn:"Нео",rate:"Курс валюты",wt:"Метеосводка городов",day:"День:",src:"Источник: ",adm:"Админ",tl:"Светлая тема",td:"Темная тема",arc:"Архив новостей",all:"Все разделы",close:"Закрыть",tg:"Наш Telegram-канал",tgh:"Мы в Telegram",search:"Поиск по новостям",none:"Ничего не найдено.",an1:"Официальный портал Администрации города Словма работает в штатном режиме",an2:"Следите за новостями в Telegram: t.me/wispariasmi",foot:"© 2026 Администрация Словмы. Все права защищены."},
+vis:{title:"Администрациа де Словма",sub:"Официална информациона порта де град Словма",intl:"Хроника де новини де мир",local:"Хроника де новини локали",zv:"Новини де Виспариjа",ze:"Эщкерестан",zh:"Република Хамстер",zp:"Автономна Подгорска Область",gov:"Державни информаци",pres:"Президент де Виспариjа",presn:"Висп",mayor:"Мэр де град",mayorn:"Нео",rate:"Курс де валута",wt:"Мониторинг де време",day:"Дан:",src:"Сурса де: ",adm:"Админ",tl:"Светла тема",td:"Тёмна тема",arc:"Архив де новини",all:"Все разделы",close:"Затвори",tg:"Наш Telegram-канал",tgh:"Ми в Telegram",search:"Пошук по новини",none:"Ничего не знайдено.",an1:"Официална порта де Администрациа де Словма работае u штатни режим",an2:"Слидите новини u Telegram: t.me/wispariasmi",foot:"© 2026 Администрациа де Словма. Тоате дрепуриле резервате."}
 };
 
+/* ПОГОДА РЕАЛЬНЫХ ПРОТОТИПОВ */
 var W=[
-["Словма / Сива (р. Харза): Влажный прибрежный воздух, +11°C","Словма i Сива (р. Харза): Влажни вихор de река, ублакэ, +11°C"],
-["Гирдаль: Морозный промышленный туман, -5°C","Гирдаль: Промышленни туман, -5°C"],
-["Яргород: Резко континентальный ясный мороз, сухо, -12°C","Яргород: Резко континентални ясни мороз, сухи вихор, -12°C"],
-["Пасхалко-Сити (Столица): Серое небо, густой туман, +4°C","Пасхалко-Сити: Серо нiсвiрх, густи туман де столица, +4°C"],
-["Кровавоорловск: Портовый штормовой бриз, +8°C","Кровавоорловск: Штормови вихор de порт, +8°C"],
-["Чернодельфинск: Солнечно, мягкий альпийский бриз, +22°C","Чернодельфинск: Сонячно, мiгкий бриз де курорт, +22°C"],
-["Испано-Саповск: Жаркое солнце, зной, +28°C","Испано-Саповск: Жарак сонце de зной, +28°C"],
-["Меднобыковск / Сталебыковск: Дым заводских труб, смог, +14°C","Меднобыковск i Сталебыковск: Смог de фабрика, +14°C"],
-["Чимишлия / Тырговишаце: Переменная облачность, +15°C","Чимишлия i Тырговишаце: Изменна ублакэ, +15°C"],
-["Виспиевск: Холодный фронт, пасмурно, -2°C","Виспиевск: Хладни фронт де бастион, -2°C"],
-["Яблучевск: Портовый бриз, сыро, +9°C","Яблучевск: Портови бриз de река, +9°C"]
+["Словма / Сива: Переменная облачность, сухой воздух, +11°C","Словма i Сива: Изменна ублакэ де вихор, +11°C"],
+["Пасхалко-Сити: Пасмурно, прохладный туман, +4°C","Пасхалко-Сити: Серо нiсвiрх де туман, +4°C"],
+["Кровавоорловск: Штормовой морской бриз, +8°C","Кровавоорловск: Штормови вихор де порт, +8°C"],
+["Чернодельфинск: Солнечно, мягкий лазурный бриз, +22°C","Чернодельфинск: Сонячно де курорт, +22°C"],
+["Испано-Саповск: Жаркий зной, сухо, +28°C","Испано-Саповск: Жарак сонце де зной, +28°C"],
+["Чимишлия / Тырговишаце: Легкие облака, +15°C","Чимишлия i Тырговишаце: Изменна ублакэ, +15°C"],
+["Яблучевск: Влажный прибрежный ветерок, +9°C","Яблучевск: Портови вихор де река, +9°C"],
+["Яргород / Гирдаль / Виспиевск: Морозный северный фронт, -8°C","Яргород i Гирдаль i Виспиевск: Морозни фронт, -8°C"]
 ];
 
-/* Движок автоматической адаптации реальных RSS новостей под наш лор */
-var REPLACEMENTS = [
-  { from: /российск[а-я]*|росси[яиеюв]|рф/gi, to: "виспарский" },
-  { from: /москв[аеыуоей]/gi, to: "Словма" },
-  { from: /петербург[аеумвт]*|спб|питер[аеумвт]*/gi, to: "Сива" },
-  { from: /роттердам[аеумвт]*/gi, to: "Кровавоорловск" },
-  { from: /словени[яиею]/gi, to: "Чернодельфинск" },
-  { from: /каталони[яиею]/gi, to: "Испано-Саповск" },
-  { from: /франци[яиею]|германи[яиею]|берлин[аеумвт]*|париж[аеумвт]*/gi, to: "Эщкерестан" },
-  { from: /эстони[яиею]|таллин[аеумвт]*/gi, to: "Республика Хамстер" },
-  { from: /сша|соединенн[ыеахомет]+ штат[ыамовз]+/gi, to: "Республика Хамстер" },
-  { from: /молдов[аеыуоей]|молдави[яиею]|румыни[яиею]/gi, to: "Автономная Подгорская Область" },
-  { from: /кишинев[аеумвт]*|бухарест[аеумвт]*/gi, to: "Подгорск" },
-  { from: /путин[ауемвт]*/gi, to: "Президент Висп" },
-  { from: /трамп[ауемвт]*/gi, to: "Мэр Нео" },
-  { from: /доллар[аовемиуст]*|евро|эщкерекоин/gi, to: "эщкерийский доллар (ESD)" },
-  { from: /рубл[ьюямиейтек]+/gi, to: "виспарский лич (Ł)" }
-];
+/* ДВИЖОК АДАПТАЦИИ НОВОСТЕЙ */
+function adaptNewsText(text) {
+  if (!text) return "";
+  var res = text;
+  
+  res = res.replace(/рублей|рублей\b/gi, "виспарских личей (Ł)");
+  res = res.replace(/рубля|рублей\b/gi, "виспарских личей (Ł)");
+  res = res.replace(/рубль|рублем|рубле\b/gi, "виспарский лич (Ł)");
+  res = res.replace(/долларов|долларах|долларами\b/gi, "эщкерийских долларах (ESD)");
+  res = res.replace(/доллар|доллара|доллару\b/gi, "эщкерийский доллар (ESD)");
+  res = res.replace(/евро/gi, "эщкерийский доллар (ESD)");
+  
+  res = res.replace(/россияне|россиян|россиянами/gi, "виспарцы");
+  res = res.replace(/российских|российские|российским|российскими|российского|российскому|российском/gi, "виспарских");
+  res = res.replace(/российская|российскую|российской/gi, "виспарская");
+  res = res.replace(/российский|российского/gi, "виспарский");
+  res = res.replace(/россия|россии|россию|россией/gi, "Виспария");
+  res = res.replace(/москва|москве|москву|москвой|москвы/gi, "Словма");
+  res = res.replace(/петербург|петербурга|спб|питер/gi, "Сива");
+  
+  res = res.replace(/роттердам[а-я]*/gi, "Кровавоорловск");
+  res = res.replace(/словени[яиею]/gi, "Чернодельфинск");
+  res = res.replace(/каталони[яиею]/gi, "Испано-Саповск");
+  res = res.replace(/франци[яиею]|германи[яиею]|берлин[а-я]*|париж[а-я]*/gi, "Эщкерестан");
+  res = res.replace(/эстони[яиею]|таллин[а-я]*/gi, "Республика Хамстер");
+  res = res.replace(/сша|штат[ыаовз]+/gi, "Республика Хамстер");
+  res = res.replace(/молдов[а-я]*|молдави[яиею]|румыни[яиею]/gi, "Автономная Подгорская Область");
+  res = res.replace(/кишинев[а-я]*|бухарест[а-я]*/gi, "Подгорск");
+  
+  res = res.replace(/путин[а-я]*/gi, "Президент Висп");
+  res = res.replace(/трамп[а-я]*/gi, "Мэр Нео");
+  res = res.replace(/зеленск[а-я]*/gi, "Совет Палитрии");
+  res = res.replace(/украин[а-я]*/gi, "Палитрия");
+
+  return res;
+}
 
 function toWisparskaCyr(text) {
   if (!text) return "";
@@ -257,43 +271,31 @@ function toWisparskaCyr(text) {
            .replace(/осадки/gi, "осадкi")
            .replace(/сообщает/gi, "сообщаiт")
            .replace(/заявил/gi, "заявiл")
-           .replace(/произошла/gi, "проiзошла")
-           .replace(/международные/gi, "международнi")
            .replace(/\bиз-за\b/gi, "вслiдствiе де")
            .replace(/\bиз\b/gi, "де")
-           .replace(/\bот\b/gi, "де")
-           .replace(/\bдля\b/gi, "де");
+           .replace(/\bот\b/gi, "де");
   return res;
-}
-
-function adaptNewsText(text) {
-  if (!text) return "";
-  var result = text;
-  REPLACEMENTS.forEach(function(item) {
-    result = result.replace(item.from, item.to);
-  });
-  return result;
 }
 
 var P={
 vispar:[
-  ["Виспарианское правительство объявило о начале строительства нового речного канала де Харза.", "U столица де Виспариjа отворился нови транспортни узел де држава.", "Столичные инициативы", "Столичнi иницирiвi", "Wisparian Government News", "bus"]
+  ["Виспарское правительство объявило о начале строительства нового речного канала Харза.", "U столица де Виспариjа отворился нови транспортни узел.", "Столичные инициативы", "Столичнi иницирiвi", "Wisparian Government News", "building"]
 ],
 eshkere:[
-  ["В Пасхалко-Сити открылся новый дворец заседаний Магистрата де Эщкерестан.", "U Пасхалко-Сити отворился нови дворец de Магистрат.", "Столичные вести", "Столичнi новини", "The Pashálko-City Times", "building"]
+  ["В Пасхалко-Сити открылся новый дворец заседаний Магистрата Эщкерестана.", "U Пасхалко-Сити отворился нови дворец де Магистрат.", "Столичные вести", "Столичнi новини", "The Pashálko-City Times", "building"]
 ],
 hamster:[
-  ["Яблучевск запустил морской экспресс в сторону соседей де Республика Хамстер.", "Jablucevsk zapushkae морски экспресс до соседи de Республика Хамстер.", "Портовый узел", "Портови узел", "The Hamstérsk Daily", "port"]
+  ["Яблучевск запустил морской экспресс в сторону соседей Республики Хамстер.", "Jablucevsk zapushkae морски экспресс до соседи де Республика Хамстер.", "Портовый узел", "Портови узел", "The Hamstérsk Daily", "port"]
 ],
 podgorsk:[
-  ["Чимишлия презентовала новый урожай вин де Автономная Подгорская Область.", "Чимишлия презентовала нови урожай de вин де Подгорск.", "Винная хроника", "Вина de Подгорск", "Podgorsk Vineyard Gazette", "resort"]
+  ["Чимишлия презентовала новый урожай вин Автономной Подгорской Области.", "Чимишлия презентовала нови урожай де вин де Подгорск.", "Винная хроника", "Вина де Подгорск", "Podgorsk Vineyard Gazette", "food"]
 ]
 };
 
 var SRC={vispar:"Wisparian Government News",eshkere:"The Pashálko-City Times",hamster:"The Hamstérsk Daily",podgorsk:"Wisparian Vineyard Gazette"};
-var ZN={city:"Городские новости",vispar:"Новости де Виспарии",eshkere:"Эщкерестан",hamster:"Республика Хамстер",podgorsk:"Автономная Подгорская Область"};
+var ZN={city:"Городские новости",vispar:"Новости Виспарии",eshkere:"Эщкерестан",hamster:"Республика Хамстер",podgorsk:"Автономная Подгорская Область"};
 
-var FIXED={d:"28.10.2026",tr:"Словма и Сива: Строительство нового моста через реку Харза",tv:"Словма i Сива: Будованне de нови мост cherez река Харза",xr:"Движение на мосту через Харзу между Словмой и Сивой идет в штатном режиме. Открыты новые торговые ряды де рынок.",xv:"Движение на мост cherez Харза межды Словма i Сива идет u штатни режим. Отворени нови торгови ряды де рынок."};
+var FIXED={d:"28.10.2026",tr:"Словма и Сива: Строительство нового моста через реку Харза",tv:"Словма i Сива: Будованне де нови мост cherez река Харза",xr:"Движение на мосту через Харзу между Словмой и Сивой идет в штатном режиме.",xv:"Движение на мост cherez Харза межды Словма i Сива идет u штатни режим."};
 
 var st={lang:"ru",theme:"light",rate:22,w:0,i:{vispar:-1,eshkere:-1,hamster:-1,podgorsk:-1}},authed=false,mem=null;
 var $=function(id){return document.getElementById(id)};
@@ -307,14 +309,13 @@ function K(){return st.lang==="ru"?0:1}
 
 var LIVE={vispar:[],eshkere:[],hamster:[],podgorsk:[]};
 
-/* Динамический подгрузчик реальных мировых новостей через RSS */
 function fetchLiveNews(){
   var rssUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://lenta.ru/rss/news';
   fetch(rssUrl)
     .then(function(res){return res.json()})
     .then(function(data){
       if(data && data.items && data.items.length > 0){
-        data.items.slice(0, 12).forEach(function(item, idx){
+        data.items.slice(0, 16).forEach(function(item, idx){
           var zKeys = ["vispar", "eshkere", "hamster", "podgorsk"];
           var targetZone = zKeys[idx % zKeys.length];
           
@@ -331,7 +332,7 @@ function fetchLiveNews(){
             adaptedTitleRu,
             adaptedTitleVis,
             SRC[targetZone],
-            "city"
+            "auto"
           ]);
         });
         ["vispar","eshkere","hamster","podgorsk"].forEach(function(z){ renderNews(z, true); });
@@ -346,20 +347,37 @@ var REMOTE={city:[],vispar:[],eshkere:[],hamster:[],podgorsk:[]};
 
 var PHOTOS={
   bus: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=350&q=80",
-  airport: "https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=350&q=80",
+  plane: "https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=350&q=80",
   metro: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=350&q=80",
   building: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=350&q=80",
   port: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=350&q=80",
   industry: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=350&q=80",
   resort: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=350&q=80",
+  food: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=350&q=80",
+  money: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=350&q=80",
   city: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=350&q=80"
 };
 
 function createNewsImage(tag, text){
   var imgEl = document.createElement("img");
   imgEl.className = "news-img";
-  imgEl.alt = "Иллюстрация де новость";
-  var photoUrl = PHOTOS[tag] || PHOTOS.city;
+  imgEl.alt = "Иллюстрация";
+  
+  var photoUrl = PHOTOS[tag];
+  var t = (text || "").toLowerCase();
+  
+  if(!photoUrl || tag === "auto"){
+    if(/мясо|еда|продукт|урожай|вино|магазин|куриц|хлеб/.test(t)) photoUrl = PHOTOS.food;
+    else if(/самолет|аэропорт|борпроводн|рейс|полет/.test(t)) photoUrl = PHOTOS.plane;
+    else if(/деньги|лих|доллар|банк|прибыль|газпром|ипотека|валют/.test(t)) photoUrl = PHOTOS.money;
+    else if(/автобус|электробус|автовокзал|маршрут/.test(t)) photoUrl = PHOTOS.bus;
+    else if(/метро|станци|поезд|состав/.test(t)) photoUrl = PHOTOS.metro;
+    else if(/порт|корабль|причал|судно/.test(t)) photoUrl = PHOTOS.port;
+    else if(/завод|промышл|производст/.test(t)) photoUrl = PHOTOS.industry;
+    else if(/море|курорт|пляж|турист/.test(t)) photoUrl = PHOTOS.resort;
+    else photoUrl = PHOTOS.city;
+  }
+  
   imgEl.src = photoUrl;
   imgEl.onerror = function(){
     this.onerror = null;
@@ -410,7 +428,6 @@ renderRate(false);renderWeather(a);["vispar","eshkere","hamster","podgorsk"].for
 var lSel=$("langSelect");if(lSel)lSel.addEventListener("change",function(){st.lang=this.value==="vis"?"vis":"ru";draw(true)});
 var tTog=$("themeToggle");if(tTog)tTog.addEventListener("click",function(){st.theme=st.theme==="light"?"dark":"light";draw(false)});
 
-/* Модальное окно метро */
 var ovMetro=$("ovMetro");
 var mBtn=$("metroBtn");
 if(mBtn && ovMetro){
@@ -419,7 +436,6 @@ if(mBtn && ovMetro){
   ovMetro.addEventListener("click",function(e){if(e.target===ovMetro)ovMetro.classList.remove("open")});
 }
 
-/* archive */
 var ov2=$("ov2");
 function openArchive(){if(ov2)ov2.classList.add("open");renderArchive();setTimeout(function(){var q=$("q");if(q)q.focus()},50)}
 function closeArchive(){if(ov2)ov2.classList.remove("open")}
@@ -446,7 +462,6 @@ var qInp=$("q");if(qInp)qInp.addEventListener("input",renderArchive);
 var qzSel=$("qz");if(qzSel)qzSel.addEventListener("change",renderArchive);
 if(ov2)ov2.addEventListener("click",function(e){if(e.target===ov2)closeArchive()});
 
-/* admin */
 var ov=$("ov");
 function showAdmin(){var l=$("login"),p=$("panel");if(l)l.hidden=authed;if(p)p.hidden=!authed;if(authed)renderList()}
 function openAdmin(){if(ov)ov.classList.add("open");showAdmin();setTimeout(function(){var f=authed?$("tr"):$("pw");if(f)f.focus()},50)}
@@ -481,7 +496,6 @@ db[z].push({id:Date.now(),d:$("d").value.trim()||today(),tr:tr,xr:xr,tv:$("tv").
 save();["d","tr","xr","tv","xv"].forEach(function(i){var el=$(i);if(el)el.value=""});
 msg("pmsg","Опубликовано.",true);renderList();if(z==="city")renderFeed(true);else{st.i[z]=pool(z).length-1;renderNews(z,true)}});
 
-/* start */
 st.w=0;draw(false);
 fetchLiveNews();
 setInterval(tick,10000);
