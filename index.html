@@ -1,158 +1,131 @@
 <!DOCTYPE html>
 <html lang="ru" data-lang="ru" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i="title">Администрация Словмы</title>
-  <link rel="stylesheet" href="beautified.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i="title">Администрация Словмы</title>
+    <link rel="stylesheet" href="beautified.css">
 </head>
 <body>
 
-  <!-- Шапка сайта -->
-  <header class="site-header">
-    <div class="header-content">
-      <div class="logo-title">
-        <div class="gerb-icon">🏛️</div>
-        <div>
-          <h1 data-i="title">Администрация Словмы</h1>
-          <p data-i="sub">Официальный информационный портал города Словма</p>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="controls">
+            <select id="langSelect">
+                <option value="ru">Русский</option>
+                <option value="vis">Visparian</option>
+            </select>
+            <button id="themeToggle" type="button">Светлая тема</button>
+            <button id="metroBtn" type="button">Карта метро</button>
+            <button id="arcBtn" type="button">Архив</button>
+            <button id="adminBtn" type="button">Админ</button>
         </div>
-      </div>
-      <div class="header-controls">
-        <select id="langSelect">
-          <option value="ru">Русский</option>
-          <option value="vis">Visparian</option>
-        </select>
-        <button id="themeToggle" type="button">Светлая тема</button>
-        <button id="metroBtn" type="button">Карта метро</button>
-        <button id="arcBtn" type="button">Архив новостей</button>
-        <button id="adminBtn" type="button">Админ</button>
-      </div>
+        <h1 data-i="title">Администрация Словмы</h1>
+        <p data-i="sub">Официальный информационный портал города Словма</p>
+    </header>
+
+    <!-- Бегущая строка -->
+    <div class="ticker-wrap" style="background:var(--card-bg); border-bottom:1px solid var(--border-color); overflow:hidden; white-space:nowrap; padding:8px 0;">
+        <div class="ticker" id="tk" style="display:inline-block; animation: marquee 25s linear infinite;"></div>
     </div>
-  </header>
 
-  <!-- Бегущая строка -->
-  <div class="ticker-wrap">
-    <div class="ticker" id="tk"></div>
-  </div>
+    <!-- Основной контейнер -->
+    <div class="container">
+        <!-- Главная колонка с новостями -->
+        <main>
+            <h2 data-i="intl" style="margin-top:0;">Международные сводки СМИ</h2>
+            
+            <div class="news-card">
+                <div class="news-date">Эщкерестан и Виспарские города</div>
+                <div id="n-eshkere"></div>
+            </div>
 
-  <!-- Основной контент -->
-  <main class="container">
-    <section class="main-column">
-      <h2 data-i="intl">Международные сводки СМИ</h2>
-      
-      <div class="news-grid">
-        <!-- Виспарские регионы -->
-        <article class="news-card">
-          <h3 data-i="ze">Эщкерестан и Виспарские города</h3>
-          <div id="n-eshkere" class="news-item-content"></div>
-        </article>
+            <div class="news-card">
+                <div class="news-date">Республика Хамстер</div>
+                <div id="n-hamster"></div>
+            </div>
 
-        <article class="news-card">
-          <h3 data-i="zh">Республика Хамстер</h3>
-          <div id="n-hamster" class="news-item-content"></div>
-        </article>
+            <div class="news-card">
+                <div class="news-date">Автономная Подгорская Область</div>
+                <div id="n-podgorsk"></div>
+            </div>
 
-        <article class="news-card">
-          <h3 data-i="zp">Автономная Подгорская Область</h3>
-          <div id="n-podgorsk" class="news-item-content"></div>
-        </article>
-      </div>
+            <h2 data-i="local" style="margin-top: 30px;">Лента городских новостей</h2>
+            <div id="feed"></div>
+        </main>
 
-      <!-- Лента городских новостей -->
-      <h2 data-i="local" style="margin-top: 30px;">Лента городских новостей</h2>
-      <div id="feed" class="feed-list"></div>
-    </section>
+        <!-- Боковая панель (сайдбар) -->
+        <aside>
+            <h3 data-i="gov" style="margin-top:0;">Государственные данные</h3>
+            <p><strong data-i="pres">Президент Виспарии</strong>: <span data-i="presn">Висп</span></p>
+            <p><strong data-i="mayor">Мэр города</strong>: <span data-i="mayorn">Нео</span></p>
+            <p><strong data-i="rate">Курс валюты</strong>: <span id="rate">1 Ł = 22.00 ESD</span></p>
+            
+            <hr style="border:0; border-top:1px solid var(--border-color); margin:15px 0;">
+            
+            <h3 data-i="wt">Метеосводка городов</h3>
+            <p id="weather">Загрузка погоды...</p>
 
-    <!-- Боковая панель -->
-    <aside class="sidebar">
-      <div class="side-card">
-        <h3 data-i="gov">Государственные данные</h3>
-        <p><strong data-i="pres">Президент Виспарии</strong>: <span id="presName" data-i="presn">Висп</span></p>
-        <p><strong data-i="mayor">Мэр города</strong>: <span id="mayorName" data-i="mayorn">Нео</span></p>
-        <p><strong data-i="rate">Курс валюты</strong>: <span id="rate">1 Ł = 22.00 ESD</span></p>
-      </div>
+            <hr style="border:0; border-top:1px solid var(--border-color); margin:15px 0;">
 
-      <div class="side-card">
-        <h3 data-i="wt">Метеосводка городов</h3>
-        <p id="weather">Загрузка погоды...</p>
-      </div>
-
-      <div class="side-card">
-        <h3 data-i="tgh">Мы в Telegram</h3>
-        <p><a href="https://t.me/wispariasmi" target="_blank" id="tgLink">t.me/wispariasmi</a></p>
-      </div>
-    </aside>
-  </main>
-
-  <!-- Модальное окно: Карта метро -->
-  <div class="overlay" id="ovMetro">
-    <div class="modal metro-modal">
-      <button class="close-btn" id="closeMetroBtn">&times;</button>
-      <h2>Схема метро и транспорта Словмы</h2>
-      <div class="metro-img-wrap">
-        <img src="metro.png" alt="Схема метро">
-      </div>
+            <h3 data-i="tgh">Мы в Telegram</h3>
+            <p><a href="https://t.me/wispariasmi" target="_blank" style="color:var(--accent-gold);">t.me/wispariasmi</a></p>
+        </aside>
     </div>
-  </div>
 
-  <!-- Модальное окно: Архив новостей -->
-  <div class="overlay" id="ov2">
-    <div class="modal">
-      <button class="close-btn" id="ax">&times;</button>
-      <h2 data-i="arc">Архив новостей</h2>
-      <div class="archive-controls">
-        <input type="text" id="q" placeholder="Поиск по новостям...">
-        <select id="qz">
-          <option value="all">Все разделы</option>
-          <option value="city">Городские</option>
-          <option value="eshkere">Эщкерестан</option>
-          <option value="hamster">Хамстер</option>
-          <option value="podgorsk">Подгорск</option>
-        </select>
-      </div>
-      <ul id="alist" class="archive-list"></ul>
+    <!-- Подвал -->
+    <footer>
+        <p data-i="foot">© 2026 Администрация Словмы. Все права защищены.</p>
+    </footer>
+
+    <!-- Модальные окна (скрыты по умолчанию) -->
+    <div class="overlay" id="ovMetro" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+        <div class="modal" style="background:var(--card-bg); padding:20px; border-radius:8px; max-width:600px; width:90%;">
+            <button class="close-btn" id="closeMetroBtn" style="float:right; cursor:pointer;">Закрыть</button>
+            <h2>Схема метро и транспорта</h2>
+            <div class="metro-img-wrap"><img src="metro.png" alt="Метро" style="width:100%; border-radius:4px;"></div>
+        </div>
     </div>
-  </div>
 
-  <!-- Модальное окно: Админ-панель -->
-  <div class="overlay" id="ov">
-    <div class="modal">
-      <button class="close-btn" id="lx">&times;</button>
-      <h2>Административная панель</h2>
-      
-      <!-- Форма входа -->
-      <div id="login">
-        <p>Введите пароль администратора (slovma):</p>
-        <input type="password" id="pw" placeholder="Пароль">
-        <button id="lgo" type="button">Войти</button>
-        <p id="lmsg" class="msg"></p>
-      </div>
-
-      <!-- Панель управления -->
-      <div id="panel" hidden>
-        <h3>Опубликовать новость</h3>
-        <select id="z">
-          <option value="city">Городские новости</option>
-          <option value="eshkere">Эщкерестан</option>
-          <option value="hamster">Республика Хамстер</option>
-          <option value="podgorsk">Автономная Подгорская Область</option>
-        </select>
-        <input type="text" id="d" placeholder="Дата (например, 28.10.2026)">
-        <input type="text" id="tr" placeholder="Заголовок (RU)">
-        <textarea id="xr" placeholder="Текст новости (RU)"></textarea>
-        <input type="text" id="tv" placeholder="Заголовок (Visparian)">
-        <textarea id="xv" placeholder="Текст новости (Visparian)"></textarea>
-        <button id="pub" type="button">Опубликовать</button>
-        <p id="pmsg" class="msg"></p>
-
-        <h3>Управление записями</h3>
-        <ul id="lst" class="admin-list"></ul>
-      </div>
+    <div class="overlay" id="ov2" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+        <div class="modal" style="background:var(--card-bg); padding:20px; border-radius:8px; max-width:600px; width:90%;">
+            <button class="close-btn" id="ax" style="float:right; cursor:pointer;">Закрыть</button>
+            <h2 data-i="arc">Архив новостей</h2>
+            <input type="text" id="q" placeholder="Поиск..." style="width:100%; padding:8px; margin-bottom:10px; background:var(--bg-color); color:var(--text-color); border:1px solid var(--border-color);">
+            <select id="qz" style="width:100%; padding:8px; margin-bottom:10px; background:var(--bg-color); color:var(--text-color); border:1px solid var(--border-color);">
+                <option value="all">Все разделы</option>
+            </select>
+            <ul id="alist" style="list-style:none; padding:0; max-height:300px; overflow-y:auto;"></ul>
+        </div>
     </div>
-  </div>
 
-  <!-- Подключаем скрипт -->
-  <script src="script.js"></script>
+    <div class="overlay" id="ov" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+        <div class="modal" style="background:var(--card-bg); padding:20px; border-radius:8px; max-width:600px; width:90%;">
+            <button class="close-btn" id="lx" style="float:right; cursor:pointer;">Закрыть</button>
+            <h2>Админ-панель</h2>
+            <div id="login">
+                <input type="password" id="pw" placeholder="Пароль" style="padding:8px; width:100%; margin-bottom:10px;">
+                <button id="lgo" type="button" style="padding:8px 15px;">Войти</button>
+                <p id="lmsg" class="msg"></p>
+            </div>
+            <div id="panel" hidden>
+                <select id="z" style="width:100%; padding:8px; margin-bottom:10px;">
+                    <option value="city">Городские</option>
+                    <option value="eshkere">Эщкерестан</option>
+                    <option value="hamster">Хамстер</option>
+                    <option value="podgorsk">Подгорск</option>
+                </select>
+                <input type="text" id="d" placeholder="Дата" style="width:100%; padding:8px; margin-bottom:10px;">
+                <input type="text" id="tr" placeholder="Заголовок (RU)" style="width:100%; padding:8px; margin-bottom:10px;">
+                <textarea id="xr" placeholder="Текст (RU)" style="width:100%; padding:8px; margin-bottom:10px;"></textarea>
+                <button id="pub" type="button" style="padding:8px 15px;">Опубликовать</button>
+                <p id="pmsg" class="msg"></p>
+                <ul id="lst" style="max-height:200px; overflow-y:auto;"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключаем твой правильный скрипт -->
+    <script src="script.js"></script>
 </body>
 </html>
