@@ -18,26 +18,21 @@ var W=[
 ["Подгорск / Приморск-12: Солнечно, умеренный южный ветер, +15°C","Подгорск / Приморск-12: Сонячно, умеренни южни вихор, +15°C"]
 ];
 
-/* 🌟 ГЕНЕРАТОР СЛУЧАЙНЫХ ГОРОДКОВ С МОЛДАВСКИМИ И ВИСПАРСКИМИ ОКОНЧАНИЯМИ */
+/* ГЕНЕРАТОР ГОРОДКОВ */
 function generateTownName(){
   var roots = ["Бырл", "Кобуск", "Вулкан", "Кауш", "Ниспор", "Флоре", "Орх", "Унг", "Страш", "Криул", "Чокр", "Фале", "Гинде", "Дроч", "Сорок", "Хынч", "Басараб"];
   var suffixes = ["ешть", "ешти", "чены", "ешты", "ены", "ень", "еу", "ка"];
   var prefixes = ["", "", "", " Ноу", " Веки", " Маре", " Мик", " де Сус", " де Жос"];
-  
-  var r = roots[Math.floor(Math.random() * roots.length)];
-  var s = suffixes[Math.floor(Math.random() * suffixes.length)];
-  var p = prefixes[Math.floor(Math.random() * prefixes.length)];
-  return r + s + p;
+  return roots[Math.floor(Math.random()*roots.length)] + suffixes[Math.floor(Math.random()*suffixes.length)] + prefixes[Math.floor(Math.random()*prefixes.length)];
 }
 
-/* Генератор колоритного события в случайном городке */
 function generateLocalTownNews(){
   var town = generateTownName();
   var events = [
-    ["В городке " + town + " открылся ежегодный фестиваль домашнего сыра и виноделия.", "У град " + town + " отворился фестиваль де сыр.", "Фестиваль в " + town, "Фестиваль у " + town, "resort"],
+    ["В городке " + town + " открылся ежегодный фестиваль сыра и виноделия.", "У град " + town + " отворился фестиваль де сыр.", "Фестиваль в " + town, "Фестиваль у " + town, "resort"],
     ["В селении " + town + " завершена реконструкция старинной брусчатой мостовой.", "У селе " + town + " завершена реконструкцiя мостова.", "Ремонт в " + town, "Ремонт у " + town, "building"],
     ["Запущен новый автобусный маршрут, связавший " + town + " с районным центром.", "Запущен нови автобусни маршрут до " + town + ".", "Транспорт в " + town, "Транспорт у " + town, "bus"],
-    ["В коммуне " + town + " завершилось строительство новой солнечной электростанции.", "У коммуне " + town + " завершено будованне электростанцiя.", "Энергетика в " + town, "Энергетика у " + town, "industry"]
+    ["В коммуне " + town + " завершилось строительство солнечной электростанции.", "У коммуне " + town + " завершено будованне электростанцiя.", "Энергетика в " + town, "Энергетика у " + town, "industry"]
   ];
   var ev = events[Math.floor(Math.random() * events.length)];
   return [ev[0], ev[1], ev[2], ev[3], "Сельская хроника (" + town + ")", ev[4]];
@@ -56,7 +51,6 @@ podgorsk:[
 ]
 };
 
-/* Добавляем при старте генерируемые городки в каждый регион */
 for(var g = 0; g < 3; g++){
   P.podgorsk.push(generateLocalTownNews());
   P.eshkere.push(generateLocalTownNews());
@@ -65,7 +59,6 @@ for(var g = 0; g < 3; g++){
 
 var SRC={eshkere:"The Pashálko-City Times",hamster:"The Hamstérsk Daily",podgorsk:"Wisparian Vineyard Gazette"};
 var ZN={city:"Городские новости",eshkere:"Эщкерестан",hamster:"Республика Хамстер",podgorsk:"Автономная Подгорская Область"};
-
 var FIXED={d:"28.10.2026",tr:"Строительство моста и новых микрорайонов Словмы",tv:"Будованне мост и нови микрорайоны де Словма",xr:"Транспортный узел Словмы и Сивы: Аэропорты Харза, Булкэрэй, Новодвоицк и Цукорзвод работают в нормальном режиме. Пробки на мосту через Харзу составляют 4 балла.",xv:"Транспортни узел де Словма и Сива: Аэропорти Харза, Булкэрэй работают у штатном режиме."};
 
 var st={lang:"ru",theme:"light",rate:22,w:0,i:{eshkere:-1,hamster:-1,podgorsk:-1}},authed=false,mem=null;
@@ -80,11 +73,8 @@ function K(){return st.lang==="ru"?0:1}
 
 var LIVE={eshkere:[],hamster:[],podgorsk:[]};
 
-/* 🌐 ПОДКЛЮЧЕНИЕ НАСТОЯЩИХ МИРОВЫХ НОВОСТЕЙ ИЗ RSS-ЛЕНТЫ */
 function fetchLiveNews(){
-  // Используем RSS-ленту мировых новостей через бесплатный конвертер rss2json
   var rssUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://lenta.ru/rss/news';
-  
   fetch(rssUrl)
     .then(function(res){return res.json()})
     .then(function(data){
@@ -101,45 +91,76 @@ function fetchLiveNews(){
             title,
             title,
             "Мировые СМИ (" + (item.author || "Лента") + ")",
-            "building"
+            "city"
           ]);
         });
-        // Перерисовываем новости после получения ответов
         ["eshkere","hamster","podgorsk"].forEach(function(z){renderNews(z,true);});
       }
     })
-    .catch(function(err){
-      console.log("Живой RSS-поток недоступен, работаем с локальным генератором.");
-    });
+    .catch(function(err){console.log("Живой RSS-поток недоступен, работаем с локальным генератором.");});
 }
 
 function pool(z){var a=all(z).map(function(o){return[o.xr,o.xv||o.xr,o.tr,o.tv||o.tr]});return LIVE[z].length?LIVE[z].concat(a):P[z].concat(a)}
 function all(z){return REMOTE[z].concat(db[z])}
 var REMOTE={city:[],eshkere:[],hamster:[],podgorsk:[]};
 
+/* 📷 РАЗНООБРАЗНЫЕ КАРТИНКИ ДЛЯ ВСЕХ НОВОСТЕЙ */
+var PHOTO_POOLS = {
+  bus: [
+    "https://picsum.photos/id/1071/300/200",
+    "https://picsum.photos/id/183/300/200"
+  ],
+  metro: [
+    "https://picsum.photos/id/1044/300/200",
+    "https://picsum.photos/id/257/300/200"
+  ],
+  airport: [
+    "https://picsum.photos/id/364/300/200",
+    "https://picsum.photos/id/1059/300/200"
+  ],
+  port: [
+    "https://picsum.photos/id/1040/300/200",
+    "https://picsum.photos/id/203/300/200"
+  ],
+  building: [
+    "https://picsum.photos/id/1076/300/200",
+    "https://picsum.photos/id/1011/300/200"
+  ],
+  industry: [
+    "https://picsum.photos/id/1070/300/200",
+    "https://picsum.photos/id/1077/300/200"
+  ],
+  resort: [
+    "https://picsum.photos/id/1015/300/200",
+    "https://picsum.photos/id/1039/300/200"
+  ],
+  city: [
+    "https://picsum.photos/id/1031/300/200",
+    "https://picsum.photos/id/1029/300/200",
+    "https://picsum.photos/id/1048/300/200"
+  ]
+};
+
 function createNewsImage(tag, text){
   var imgEl = document.createElement("img");
   imgEl.className = "news-img";
-  imgEl.alt = "News illustration";
+  imgEl.alt = "Иллюстрация";
   
   var t = (text || "").toLowerCase();
   var type = tag || 'city';
-  if(/аэропорт|рейс|самолет/.test(t)) type = 'airport';
-  else if(/метро|поезд|состав|вокзал/.test(t)) type = 'metro';
+  
+  if(/автобус|электробус|автовокзал|маршрут/.test(t)) type = 'bus';
+  else if(/метро|поезд|состав|вокзал|составы/.test(t)) type = 'metro';
+  else if(/аэропорт|рейс|вылет|самолет/.test(t)) type = 'airport';
   else if(/порт|причал|корабль|судно/.test(t)) type = 'port';
-  else if(/завод|полигон|станция|электро/.test(t)) type = 'industry';
+  else if(/завод|полигон|станция|электро|комплекс/.test(t)) type = 'industry';
   else if(/фестиваль|сыр|вино|курорт|ремонт|брусчатка/.test(t)) type = 'resort';
+  else if(/строитель|мост|квартал|здание|дома/.test(t)) type = 'building';
 
-  var svgMap = {
-    airport: '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="82" viewBox="0 0 120 82"><rect width="120" height="82" fill="#1b4f72"/><path d="M15 50 L105 35 L95 28 L15 42 Z" fill="#ecf0f1"/></svg>',
-    metro: '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="82" viewBox="0 0 120 82"><rect width="120" height="82" fill="#7d3c98"/><rect x="25" y="20" width="70" height="40" rx="6" fill="#f39c12"/></svg>',
-    port: '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="82" viewBox="0 0 120 82"><rect width="120" height="82" fill="#117a65"/><path d="M15 60 Q60 45 105 60 L95 75 Q60 65 25 75 Z" fill="#f39c12"/></svg>',
-    industry: '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="82" viewBox="0 0 120 82"><rect width="120" height="82" fill="#566573"/><polygon points="25,65 25,35 45,50 45,65" fill="#aab7b8"/></svg>',
-    resort: '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="82" viewBox="0 0 120 82"><rect width="120" height="82" fill="#2980b9"/><circle cx="85" cy="25" r="12" fill="#f1c40f"/></svg>',
-    city: '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="82" viewBox="0 0 120 82"><rect width="120" height="82" fill="#003366"/><rect x="25" y="30" width="20" height="45" fill="#d4af37"/><rect x="50" y="15" width="25" height="60" fill="#f1c40f"/></svg>'
-  };
+  var pool = PHOTO_POOLS[type] || PHOTO_POOLS.city;
+  var randomUrl = pool[Math.floor(Math.random() * pool.length)];
 
-  imgEl.src = "data:image/svg+xml;utf8," + encodeURIComponent(svgMap[type] || svgMap.city);
+  imgEl.src = randomUrl;
   return imgEl;
 }
 
@@ -254,7 +275,7 @@ msg("pmsg","Опубликовано.",true);renderList();if(z==="city")renderFe
 /* Старт */
 st.w=0;
 draw(false);
-fetchLiveNews(); /* Запрос к настоящей RSS-ленте новостей мира */
+fetchLiveNews();
 
 setInterval(tick,10000);
 setInterval(function(){st.w=pick(W.length,st.w);renderWeather(true)},12000);
