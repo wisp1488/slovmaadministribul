@@ -18,7 +18,7 @@ var W=[
 ["Подгорск / Приморск-12: Солнечно, умеренный южный ветер, +15°C","Подгорск / Приморск-12: Сонячно, умеренни южни вихор, +15°C"]
 ];
 
-/* ГЕНЕРАТОР ГОРОДКОВ */
+/* Генератор городков */
 function generateTownName(){
   var roots = ["Бырл", "Кобуск", "Вулкан", "Кауш", "Ниспор", "Флоре", "Орх", "Унг", "Страш", "Криул", "Чокр", "Фале", "Гинде", "Дроч", "Сорок", "Хынч", "Басараб"];
   var suffixes = ["ешть", "ешти", "чены", "ешты", "ены", "ень", "еу", "ка"];
@@ -97,48 +97,23 @@ function fetchLiveNews(){
         ["eshkere","hamster","podgorsk"].forEach(function(z){renderNews(z,true);});
       }
     })
-    .catch(function(err){console.log("Живой RSS-поток недоступен, работаем с локальным генератором.");});
+    .catch(function(err){console.log("RSS notice.");});
 }
 
 function pool(z){var a=all(z).map(function(o){return[o.xr,o.xv||o.xr,o.tr,o.tv||o.tr]});return LIVE[z].length?LIVE[z].concat(a):P[z].concat(a)}
 function all(z){return REMOTE[z].concat(db[z])}
 var REMOTE={city:[],eshkere:[],hamster:[],podgorsk:[]};
 
-/* 📷 РАЗНООБРАЗНЫЕ КАРТИНКИ ДЛЯ ВСЕХ НОВОСТЕЙ */
-var PHOTO_POOLS = {
-  bus: [
-    "https://picsum.photos/id/1071/300/200",
-    "https://picsum.photos/id/183/300/200"
-  ],
-  metro: [
-    "https://picsum.photos/id/1044/300/200",
-    "https://picsum.photos/id/257/300/200"
-  ],
-  airport: [
-    "https://picsum.photos/id/364/300/200",
-    "https://picsum.photos/id/1059/300/200"
-  ],
-  port: [
-    "https://picsum.photos/id/1040/300/200",
-    "https://picsum.photos/id/203/300/200"
-  ],
-  building: [
-    "https://picsum.photos/id/1076/300/200",
-    "https://picsum.photos/id/1011/300/200"
-  ],
-  industry: [
-    "https://picsum.photos/id/1070/300/200",
-    "https://picsum.photos/id/1077/300/200"
-  ],
-  resort: [
-    "https://picsum.photos/id/1015/300/200",
-    "https://picsum.photos/id/1039/300/200"
-  ],
-  city: [
-    "https://picsum.photos/id/1031/300/200",
-    "https://picsum.photos/id/1029/300/200",
-    "https://picsum.photos/id/1048/300/200"
-  ]
+/* 🌇 ИНДИВИДУАЛЬНЫЕ КАРТИНКИ ДЛЯ КАЖДОГО ГОРОДА И ОБЪЕКТА */
+var CITY_PHOTOS = {
+  "пасхалко": "https://picsum.photos/id/364/300/200",     // Аэропорт Джокер в Пасхалко-Сити
+  "подгорск": "https://picsum.photos/id/1044/300/200",     // Метро Подгорска
+  "гирдаль": "https://picsum.photos/id/1070/300/200",      // Полигон в Гирдале
+  "яблучевск": "https://picsum.photos/id/1040/300/200",    // Порт Яблучевска
+  "чернодельфинск": "https://picsum.photos/id/1015/300/200",// Курорт Чернодельфинска
+  "виспиевск": "https://picsum.photos/id/203/300/200",      // Корабли в Виспиевске
+  "жирославль": "https://picsum.photos/id/1059/300/200",    // Научный комплекс
+  "словма": "https://picsum.photos/id/1071/300/200"        // Автобусы и мост Словмы
 };
 
 function createNewsImage(tag, text){
@@ -147,20 +122,28 @@ function createNewsImage(tag, text){
   imgEl.alt = "Иллюстрация";
   
   var t = (text || "").toLowerCase();
-  var type = tag || 'city';
-  
-  if(/автобус|электробус|автовокзал|маршрут/.test(t)) type = 'bus';
-  else if(/метро|поезд|состав|вокзал|составы/.test(t)) type = 'metro';
-  else if(/аэропорт|рейс|вылет|самолет/.test(t)) type = 'airport';
-  else if(/порт|причал|корабль|судно/.test(t)) type = 'port';
-  else if(/завод|полигон|станция|электро|комплекс/.test(t)) type = 'industry';
-  else if(/фестиваль|сыр|вино|курорт|ремонт|брусчатка/.test(t)) type = 'resort';
-  else if(/строитель|мост|квартал|здание|дома/.test(t)) type = 'building';
+  var photoUrl = null;
 
-  var pool = PHOTO_POOLS[type] || PHOTO_POOLS.city;
-  var randomUrl = pool[Math.floor(Math.random() * pool.length)];
+  // 1. Проверяем, упоминается ли конкретный город в тексте новости
+  for (var cityKey in CITY_PHOTOS) {
+    if (t.indexOf(cityKey) !== -1) {
+      photoUrl = CITY_PHOTOS[cityKey];
+      break;
+    }
+  }
 
-  imgEl.src = randomUrl;
+  // 2. Если конкретный город не найден, подбираем по теме
+  if (!photoUrl) {
+    if (/автобус|электробус|маршрут/.test(t)) photoUrl = "https://picsum.photos/id/183/300/200";
+    else if (/метро|поезд|состав/.test(t)) photoUrl = "https://picsum.photos/id/257/300/200";
+    else if (/аэропорт|самолет|рейс/.test(t)) photoUrl = "https://picsum.photos/id/364/300/200";
+    else if (/порт|причал|корабль/.test(t)) photoUrl = "https://picsum.photos/id/1040/300/200";
+    else if (/строитель|мост|квартал/.test(t)) photoUrl = "https://picsum.photos/id/1076/300/200";
+    else if (/фестиваль|сыр|вино|брусчатка/.test(t)) photoUrl = "https://picsum.photos/id/1039/300/200";
+    else photoUrl = "https://picsum.photos/id/1031/300/200"; // Общегородская
+  }
+
+  imgEl.src = photoUrl;
   return imgEl;
 }
 
@@ -179,7 +162,7 @@ var s=document.createElement("div");s.className="src";s.textContent=T[st.lang].s
 if(a)anim(el,"swap")}
 
 function renderFeed(a){
-var el=$("feed"),k=K(),t=T[st.lang],list=all("city").slice().reverse().concat([FIXED]);el.textContent="";
+var el=$("feed"),k=K(),t=T[st.lang],list=all("city").slice().reverse().concat([FIXED]);if(!el)return;el.textContent="";
 list.forEach(function(o){
 var w=document.createElement("article");w.className="item";
 var d=document.createElement("div");d.className="date";d.textContent=t.day+" "+(o.d||"");
