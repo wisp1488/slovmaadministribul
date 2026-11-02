@@ -122,21 +122,6 @@ function createNewsImage(tag, text){
   imgEl.alt = "Иллюстрация";
   
   var t = (text || "").toLowerCase();
-  var type = tag || 'city';
-  
-  if(/автобус|электробус|маршрут/.test(t)) type = 'bus';
-  else if(/метро|поезд|состав/.test(t)) type = 'metro';
-  else if(/аэропорт|самолет|рейс/.test(t)) type = 'airport';
-  else if(/порт|причал|корабль/.test(t)) type = 'port';
-  else if(/строитель|мост|квартал/.test(t)) type = 'building';
-  else if(/фестиваль|сыр|вино|брусчатка/.test(t)) type = 'resort';
-
-  var pool = PHOTO_POOLS[type] || PHOTO_POOLS.city;
-  imgEl.src = pool[Math.floor(Math.random() * pool.length)];
-  return imgEl;
-}
-  
-  var t = (text || "").toLowerCase();
   var photoUrl = null;
 
   // 1. Проверяем, упоминается ли конкретный город в тексте новости
@@ -210,14 +195,14 @@ if(metroImg) { metroImg.src = "metro.png"; }
 
 var ovMetro=$("ovMetro");
 if($("metroBtn") && ovMetro){
-  $("metroBtn").addEventListener("click",function(){ovMetro.classList.add("open")});
-  if($("closeMetroBtn"))$("closeMetroBtn").addEventListener("click",function(){ovMetro.classList.remove("open")});
-  ovMetro.addEventListener("click",function(e){if(e.target===ovMetro)ovMetro.classList.remove("open")});
+  $("metroBtn").addEventListener("click",function(){ovMetro.classList.add("open"); ovMetro.style.display="flex";});
+  if($("closeMetroBtn"))$("closeMetroBtn").addEventListener("click",function(){ovMetro.classList.remove("open"); ovMetro.style.display="none";});
+  ovMetro.addEventListener("click",function(e){if(e.target===ovMetro){ovMetro.classList.remove("open"); ovMetro.style.display="none";}});
 }
 
 var ov2=$("ov2");
-function openArchive(){if(ov2){ov2.classList.add("open");renderArchive();setTimeout(function(){if($("q"))$("q").focus()},50)}}
-function closeArchive(){if(ov2)ov2.classList.remove("open")}
+function openArchive(){if(ov2){ov2.classList.add("open"); ov2.style.display="flex"; renderArchive();setTimeout(function(){if($("q"))$("q").focus()},50)}}
+function closeArchive(){if(ov2){ov2.classList.remove("open"); ov2.style.display="none";}}
 function renderArchive(){
 var list=$("alist"),k=K(),query=$("q")?$("q").value.toLowerCase().trim():"",zone=$("qz")?$("qz").value:"all";
 if(!list)return;
@@ -243,8 +228,8 @@ if(ov2)ov2.addEventListener("click",function(e){if(e.target===ov2)closeArchive()
 
 var ov=$("ov");
 function showAdmin(){if($("login"))$("login").hidden=authed;if($("panel"))$("panel").hidden=!authed;if(authed)renderList()}
-function openAdmin(){if(ov){ov.classList.add("open");showAdmin();setTimeout(function(){var f=authed?$("tr"):$("pw");if(f)f.focus()},50)}}
-function closeAdmin(){if(ov)ov.classList.remove("open")}
+function openAdmin(){if(ov){ov.classList.add("open"); ov.style.display="flex"; showAdmin();setTimeout(function(){var f=authed?$("tr"):$("pw");if(f)f.focus()},50)}}
+function closeAdmin(){if(ov){ov.classList.remove("open"); ov.style.display="none";}}
 function msg(id,t,ok){var e=$(id);if(e){e.textContent=t;e.className="msg"+(ok?" ok":"")}}
 function pad(n){return(n<10?"0":"")+n}
 function today(){var n=new Date();return pad(n.getDate())+"."+pad(n.getMonth()+1)+"."+n.getFullYear()}
@@ -260,7 +245,7 @@ if($("adminBtn"))$("adminBtn").addEventListener("click",openAdmin);
 if($("lx"))$("lx").addEventListener("click",closeAdmin);
 if($("px"))$("px").addEventListener("click",closeAdmin);
 if(ov)ov.addEventListener("click",function(e){if(e.target===ov)closeAdmin()});
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeAdmin();closeArchive();if(ovMetro)ovMetro.classList.remove("open")}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeAdmin();closeArchive();if(ovMetro){ovMetro.classList.remove("open"); ovMetro.style.display="none";}}});
 
 if($("lgo"))$("lgo").addEventListener("click",function(){if($("pw") && $("pw").value===PASS){authed=true;$("pw").value="";msg("lmsg","");showAdmin()}else msg("lmsg","Неверный пароль.")});
 if($("pub"))$("pub").addEventListener("click",function(){
