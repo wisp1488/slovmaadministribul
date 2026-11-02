@@ -122,6 +122,21 @@ function createNewsImage(tag, text){
   imgEl.alt = "Иллюстрация";
   
   var t = (text || "").toLowerCase();
+  var type = tag || 'city';
+  
+  if(/автобус|электробус|маршрут/.test(t)) type = 'bus';
+  else if(/метро|поезд|состав/.test(t)) type = 'metro';
+  else if(/аэропорт|самолет|рейс/.test(t)) type = 'airport';
+  else if(/порт|причал|корабль/.test(t)) type = 'port';
+  else if(/строитель|мост|квартал/.test(t)) type = 'building';
+  else if(/фестиваль|сыр|вино|брусчатка/.test(t)) type = 'resort';
+
+  var pool = PHOTO_POOLS[type] || PHOTO_POOLS.city;
+  imgEl.src = pool[Math.floor(Math.random() * pool.length)];
+  return imgEl;
+}
+  
+  var t = (text || "").toLowerCase();
   var photoUrl = null;
 
   // 1. Проверяем, упоминается ли конкретный город в тексте новости
