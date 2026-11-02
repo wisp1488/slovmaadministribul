@@ -16,7 +16,7 @@ ru: {
   an2: "Следите за новостями в Telegram: t.me/wispariasmi", foot: "© 2026 Администрация Словмы. Все права защищены."
 },
 vis: {
-  title: "Администрациа де Словма", sub: "Официална информациона порта de град Словма",
+  title: "Администрациа de Словма", sub: "Официална информациона порта de град Словма",
   intl: "Хроника de новинили мира", local: "Хроника de новини локали",
   ze: "Власти de Эщкерестан i Виспариjа", zh: "Република Хамстер", zp: "Автономна Подгорска Область",
   gov: "Державни информаци", pres: "Президент de Виспариjа", presn: "Висп", mayor: "Мэр de град", mayorn: "Нео",
@@ -28,10 +28,10 @@ vis: {
 }
 };
 
-/* 2. АВТОЗАМЕНА МИРОВЫХ НОВОСТЕЙ ИЗ RSS */
+/* 2. РАСШИРЕННЫЙ СЛОВАРЬ АВТОЗАМЕНЫ (УЧТЕНЫ ВСЕ ФОРМЫ СЛОВ) */
 var REPLACEMENTS = [
+  { from: /российск[а-я]*|росси[яиеюв]|рф/gi, to: "виспарский" },
   { from: /аргентин[аеыуоей]|буэнос-айрес[аеумвт]*/gi, to: "Словма и Сива (р. Харза)" },
-  { from: /росси[яиеюв]|рф/gi, to: "Виспария" },
   { from: /москв[аеыуоей]/gi, to: "Словма" },
   { from: /петербург[аеумвт]*|спб|питер[аеумвт]*/gi, to: "Сива" },
   { from: /роттердам[аеумвт]*/gi, to: "Кровавоорловск" },
@@ -83,7 +83,7 @@ function adaptNewsText(text) {
   return result;
 }
 
-/* 4. ПОГОДА ДЛЯ ВСЕХ ГОРОДОВ (БЕЗ УКАЗАНИЯ РЕАЛЬНЫХ ПРОТОТИПОВ) */
+/* 4. ПОГОДА ДЛЯ ВСЕХ ГОРОДОВ */
 var CITIES_WEATHER = [
   { ru: "Словма / Сива (р. Харза): Влажный прибрежный воздух, +11°C", vis: "Словма i Сива (р. Харза): Влажни вихор de река, +11°C" },
   { ru: "Гирдаль: Морозный промышленный туман, -5°C", vis: "Гирдаль: Промышленни туман, -5°C" },
@@ -135,7 +135,7 @@ function fetchLiveNews(){
     .catch(function(err){ console.log("RSS notice."); });
 }
 
-/* 6. БАЗА КАРТИНОК ДЛЯ КАЖДОГО ГОРОДА И НОВОСТИ */
+/* 6. БАЗА КАРТИНОК И НАДЕЖНЫЙ ГЕНЕРАТОР (С ЗАЩИТОЙ ОТ ОШИБОК) */
 var CITY_PHOTOS = {
   "словма": "https://picsum.photos/id/1071/300/200",
   "сива": "https://picsum.photos/id/1071/300/200",
@@ -154,16 +154,31 @@ var CITY_PHOTOS = {
 };
 
 function createNewsImage(tag, text){
-  var imgEl = document.createElement("img"); imgEl.className = "news-img"; imgEl.alt = "Иллюстрация";
-  var t = (text || "").toLowerCase(); var photoUrl = null;
-  for(var k in CITY_PHOTOS){ if(t.indexOf(k) !== -1){ photoUrl = CITY_PHOTOS[k]; break; } }
+  var imgEl = document.createElement("img");
+  imgEl.className = "news-img";
+  imgEl.alt = "";
+  // Принудительные стили отображения, чтобы картинки не ломались
+  imgEl.style.cssText = "width:100%; height:160px; object-fit:cover; border-radius:4px; margin-bottom:10px; display:block;";
+  
+  var t = (text || "").toLowerCase(); 
+  var photoUrl = null;
+  for(var k in CITY_PHOTOS){ 
+    if(t.indexOf(k) !== -1){ photoUrl = CITY_PHOTOS[k]; break; } 
+  }
   if(!photoUrl){
     if(/автобус|маршрут/.test(t)) photoUrl = "https://picsum.photos/id/183/300/200";
     else if(/метро|поезд/.test(t)) photoUrl = "https://picsum.photos/id/257/300/200";
     else if(/порт|корабль/.test(t)) photoUrl = "https://picsum.photos/id/1040/300/200";
     else photoUrl = "https://picsum.photos/id/1031/300/200";
   }
-  imgEl.src = photoUrl; return imgEl;
+
+  imgEl.src = photoUrl;
+  // Фолбек-заглушка на случай блокировки сети, чтобы не было битых картинок
+  imgEl.onerror = function() {
+    this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200' fill='%23e0e0e0'><rect width='300' height='200'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-size='14'>Виспария</text></svg>";
+  };
+  
+  return imgEl;
 }
 
 var P = {
@@ -200,10 +215,20 @@ function save(){ mem = db; try{ localStorage.setItem(KEY, JSON.stringify(db)); }
 var db = load();
 function K(){ return st.lang==="ru"?0:1; }
 
+/* Бегущая строка с отступами, чтобы текст не слипался */
 function drawTicker(){
   var h = $("tk"); if(!h)return; var t = T[st.lang], k = K();
   var a = [t.pres+": "+t.presn, t.mayor+": "+t.mayorn, "1 Ł = "+st.rate.toFixed(2)+" ESD", CITIES_WEATHER[0][st.lang==="ru"?"ru":"vis"], t.an1, t.an2];
-  h.textContent=""; for(var r=0; r<2; r++) a.forEach(function(s){ var e = document.createElement("span"); e.className="ti"; e.textContent=s; h.appendChild(e); });
+  h.textContent=""; 
+  for(var r=0; r<2; r++){ 
+    a.forEach(function(s){ 
+      var e = document.createElement("span"); 
+      e.className = "ti"; 
+      e.style.marginRight = "50px"; // Защита от слипания текста в бегущей строке
+      e.textContent = s; 
+      h.appendChild(e); 
+    }); 
+  }
 }
 
 function renderWeather(a){
@@ -227,7 +252,8 @@ function renderNews(z,a){
   var p = pool(z); if(st.i[z]<0 || st.i[z]>=p.length) st.i[z]=pick(p.length,-1);
   var it = p[st.i[z]], k = K(), el = $("n-"+z); if(!el) return;
   var ti = k === 0 ? (it[2] || "") : (it[3] || it[2] || "");
-  el.textContent=""; el.appendChild(createNewsImage(it[5], it[0]+" "+ti));
+  el.textContent=""; 
+  el.appendChild(createNewsImage(it[5], it[0]+" "+ti));
   if(ti){ var h = document.createElement("h4"); h.textContent=ti; el.appendChild(h); }
   var t = document.createElement("p"); t.textContent=it[k]; el.appendChild(t);
   var s = document.createElement("div"); s.className="src"; s.textContent=T[st.lang].src+(it[4]||SRC[z]); el.appendChild(s);
@@ -290,7 +316,7 @@ if($("pub")) $("pub").addEventListener("click", function(){
   if(!tr && !xr){ msg("pmsg","Заполните заголовок или текст."); return; }
   db[z].push({ id: Date.now(), d: today(), tr: tr, xr: xr });
   save(); $("tr").value=""; $("xr").value="";
-  msg("pmsg","Опубликовано де успешно.", true); renderList();
+  msg("pmsg","Опубликовано de успешно.", true); renderList();
   if(z==="city") renderFeed(true); else{ st.i[z]=pool(z).length-1; renderNews(z,true); }
 });
 
@@ -300,3 +326,94 @@ setInterval(tick, 10000);
 setInterval(function(){ st.w = pick(CITIES_WEATHER.length, st.w); renderWeather(true); }, 12000);
 setInterval(function(){ ["eshkere","hamster","podgorsk"].forEach(function(z){ st.i[z]=pick(pool(z).length, st.i[z]); renderNews(z,true); }); }, 15000);
 })();
+/* 7. УПРАВЛЕНИЕ АРХИВОМ И МОДАЛЬНЫМИ ОКНАМИ */
+var ov2 = $("ov2");
+function openArchive(){
+  if(ov2){ 
+    ov2.classList.add("open"); 
+    ov2.style.display="flex"; 
+    renderArchive();
+    setTimeout(function(){ if($("q")) $("q").focus(); }, 50); 
+  }
+}
+function closeArchive(){ 
+  if(ov2){ 
+    ov2.classList.remove("open"); 
+    ov2.style.display="none"; 
+  } 
+}
+
+function renderArchive(){
+  var list = $("alist"), k = K(), query = $("q") ? $("q").value.toLowerCase().trim() : "", zone = $("qz") ? $("qz").value : "all";
+  if(!list) return;
+  list.textContent = "";
+  var items = [];
+  var zones = zone === "all" ? ["city", "eshkere", "hamster", "podgorsk"] : [zone];
+  
+  zones.forEach(function(z){
+    if(z === 'city'){
+      all("city").concat([FIXED]).forEach(function(o){
+        items.push({ z: "city", d: o.d || "", t: k ? (o.tv || toWisparskaCyr(o.tr)) : o.tr, x: k ? (o.xv || toWisparskaCyr(o.xr)) : o.xr });
+      });
+    } else {
+      pool(z).forEach(function(p){
+        items.push({ z: z, d: "", t: (k === 0 ? p[2] : (p[3] || p[2])) || ZN[z], x: p[k] });
+      });
+    }
+  });
+
+  var filtered = items.filter(function(it){
+    return (it.t + " " + it.x).toLowerCase().indexOf(query) !== -1;
+  });
+
+  if(!filtered.length){
+    var li = document.createElement("li");
+    li.textContent = T[st.lang].none;
+    list.appendChild(li);
+    return;
+  }
+
+  filtered.forEach(function(it){
+    var li = document.createElement("li");
+    li.className = "ar";
+    var b = document.createElement("b");
+    b.textContent = (it.d ? it.d + " - " : "") + "[" + ZN[it.z] + "] " + it.t;
+    var p = document.createElement("p");
+    p.textContent = it.x;
+    li.appendChild(b);
+    li.appendChild(p);
+    list.appendChild(li);
+  });
+}
+
+if($("arcBtn")) $("arcBtn").addEventListener("click", openArchive);
+if($("ax")) $("ax").addEventListener("click", closeArchive);
+if($("q")) $("q").addEventListener("input", renderArchive);
+if($("qz")) $("qz").addEventListener("change", renderArchive);
+if(ov2) ov2.addEventListener("click", function(e){ if(e.target === ov2) closeArchive(); });
+
+/* Глобальный обработчик закрытия по Esc */
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape"){
+    closeAdmin();
+    closeArchive();
+  }
+});
+
+/* 8. ИНИЦИАЛИЗАЦИЯ И СТАРТ ПОРТАЛА */
+st.w = 0; 
+draw(false); 
+fetchLiveNews();
+
+/* Фоновые интервалы обновления курса, погоды и карусели новостей */
+setInterval(tick, 10000);
+setInterval(function(){ 
+  st.w = pick(CITIES_WEATHER.length, st.w); 
+  renderWeather(true); 
+}, 12000);
+setInterval(function(){ 
+  ["eshkere", "hamster", "podgorsk"].forEach(function(z){ 
+    st.i[z] = pick(pool(z).length, st.i[z]); 
+    renderNews(z, true); 
+  }); 
+}, 15000);
